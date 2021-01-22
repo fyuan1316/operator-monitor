@@ -1,0 +1,48 @@
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  creationTimestamp: null
+  name: manager-role
+rules:
+- apiGroups:
+  - operator.alauda.io
+  resources:
+  - operatorstatuses
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - operator.alauda.io
+  resources:
+  - operatorstatuses/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - operator.alauda.io
+  resources:
+  - operatorwatchers
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - operator.alauda.io
+  resources:
+  - operatorwatchers/status
+  verbs:
+  - get
+  - patch
+  - update

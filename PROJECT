@@ -1,7 +1,14 @@
 domain: alauda.io
 layout: go.kubebuilder.io/v2
 projectName: operator-monitor
-repo: github.com/fyuan1316/operator-monitor
+repo: fyuan1316/operator-monitor
+resources:
+- group: operator
+  kind: OperatorWatcher
+  version: v1alpha1
+- group: operator
+  kind: OperatorStatus
+  version: v1alpha1
 version: 3-alpha
 plugins:
   go.sdk.operatorframework.io/v2-alpha: {}

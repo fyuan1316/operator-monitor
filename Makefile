@@ -1,7 +1,10 @@
 # Current Operator version
-VERSION ?= 0.0.1
+#VERSION ?= 0.0.1
+COMMIT=git rev-parse --short HEAD
+VERSION ?=`$(COMMIT)`
+
 # Default bundle image tag
-BUNDLE_IMG ?= controller-bundle:$(VERSION)
+BUNDLE_IMG ?= harbor-b.alauda.cn/asm/operator-monitor:$(VERSION)
 # Options for 'bundle-build'
 ifneq ($(origin CHANNELS), undefined)
 BUNDLE_CHANNELS := --channels=$(CHANNELS)
