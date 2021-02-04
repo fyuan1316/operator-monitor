@@ -1,7 +1,7 @@
 domain: alauda.io
 layout: go.kubebuilder.io/v2
 projectName: operator-monitor
-repo: fyuan1316/operator-monitor
+repo: gitlab-ce.alauda.cn/micro-service/operator-monitor
 resources:
 - group: operator
   kind: OperatorWatcher

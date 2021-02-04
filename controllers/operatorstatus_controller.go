@@ -19,8 +19,8 @@ package controllers
 import (
 	"context"
 	"fmt"
-	"fyuan1316/operator-monitor/pkg/status"
 	"github.com/go-logr/logr"
+	"gitlab-ce.alauda.cn/micro-service/operator-monitor/pkg/status"
 	"k8s.io/apimachinery/pkg/api/equality"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/client-go/tools/record"
@@ -30,7 +30,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 
-	operatorv1alpha1 "fyuan1316/operator-monitor/api/v1alpha1"
+	operatorv1alpha1 "gitlab-ce.alauda.cn/micro-service/operator-monitor/api/v1alpha1"
 )
 
 // OperatorStatusReconciler reconciles a OperatorStatus object

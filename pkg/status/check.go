@@ -1,7 +1,7 @@
 package status
 
 import (
-	operatorv1alpha1 "fyuan1316/operator-monitor/api/v1alpha1"
+	operatorv1alpha1 "gitlab-ce.alauda.cn/micro-service/operator-monitor/api/v1alpha1"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )

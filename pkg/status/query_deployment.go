@@ -2,7 +2,7 @@ package status
 
 import (
 	"context"
-	operatorv1alpha1 "fyuan1316/operator-monitor/api/v1alpha1"
+	operatorv1alpha1 "gitlab-ce.alauda.cn/micro-service/operator-monitor/api/v1alpha1"
 	appsv1 "k8s.io/api/apps/v1"
 )
 

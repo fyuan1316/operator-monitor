@@ -2,8 +2,8 @@ package controllers
 
 import (
 	"context"
-	"fyuan1316/operator-monitor/api/v1alpha1"
-	"fyuan1316/operator-monitor/pkg/operator"
+	"gitlab-ce.alauda.cn/micro-service/operator-monitor/api/v1alpha1"
+	"gitlab-ce.alauda.cn/micro-service/operator-monitor/pkg/operator"
 	"k8s.io/apimachinery/pkg/api/equality"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 

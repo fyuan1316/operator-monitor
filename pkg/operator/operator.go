@@ -3,10 +3,10 @@ package operator
 import (
 	"context"
 	"fmt"
-	"fyuan1316/operator-monitor/api/v1alpha1"
-	"fyuan1316/operator-monitor/pkg/util"
 	v1 "github.com/operator-framework/api/pkg/operators/v1"
 	pkgerrors "github.com/pkg/errors"
+	"gitlab-ce.alauda.cn/micro-service/operator-monitor/api/v1alpha1"
+	"gitlab-ce.alauda.cn/micro-service/operator-monitor/pkg/util"
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"

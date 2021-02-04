@@ -1,4 +1,4 @@
-module fyuan1316/operator-monitor
+module gitlab-ce.alauda.cn/micro-service/operator-monitor
 
 go 1.13
 

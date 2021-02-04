@@ -2,10 +2,10 @@ package operator
 
 import (
 	"fmt"
-	"fyuan1316/operator-monitor/api/v1alpha1"
-	"fyuan1316/operator-monitor/pkg/gvk"
-	"fyuan1316/operator-monitor/pkg/util"
 	v1 "github.com/operator-framework/api/pkg/operators/v1"
+	"gitlab-ce.alauda.cn/micro-service/operator-monitor/api/v1alpha1"
+	"gitlab-ce.alauda.cn/micro-service/operator-monitor/pkg/gvk"
+	"gitlab-ce.alauda.cn/micro-service/operator-monitor/pkg/util"
 	iopv1alpha1 "istio.io/istio/operator/pkg/apis/istio/v1alpha1"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"

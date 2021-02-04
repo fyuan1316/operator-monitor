@@ -28,8 +28,8 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 
-	operatorv1alpha1 "fyuan1316/operator-monitor/api/v1alpha1"
-	"fyuan1316/operator-monitor/controllers"
+	operatorv1alpha1 "gitlab-ce.alauda.cn/micro-service/operator-monitor/api/v1alpha1"
+	"gitlab-ce.alauda.cn/micro-service/operator-monitor/controllers"
 	// +kubebuilder:scaffold:imports
 )
 
