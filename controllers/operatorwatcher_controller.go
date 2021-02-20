@@ -22,7 +22,6 @@ import (
 	"github.com/fyuan1316/operatorlib/event"
 	"github.com/go-logr/logr"
 	v1 "github.com/operator-framework/api/pkg/operators/v1"
-	operatorv1alpha1 "gitlab-ce.alauda.cn/micro-service/operator-monitor/api/v1alpha1"
 	"gitlab-ce.alauda.cn/micro-service/operator-monitor/pkg/gvk"
 	"gitlab-ce.alauda.cn/micro-service/operator-monitor/pkg/operator"
 	error2 "gitlab-ce.alauda.cn/micro-service/operator-monitor/pkg/operator/error"
@@ -33,9 +32,7 @@ import (
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
-	"sigs.k8s.io/controller-runtime/pkg/handler"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
-	"sigs.k8s.io/controller-runtime/pkg/source"
 )
 
 const (
@@ -160,9 +157,14 @@ func (r *OperatorWatcherReconciler) Reconcile(ctx context.Context, req ctrl.Requ
 }
 
 func (r *OperatorWatcherReconciler) SetupWithManager(mgr ctrl.Manager) error {
-	u := gvk.NewOperatorUnstructured().GetUnstructured()
-	return ctrl.NewControllerManagedBy(mgr).
-		For(&operatorv1alpha1.OperatorWatcher{}).
-		Watches(&source.Kind{Type: &u}, &handler.EnqueueRequestForObject{}).
-		Complete(r)
+	/*
+		u := gvk.NewOperatorUnstructured().GetUnstructured()
+		return ctrl.NewControllerManagedBy(mgr).
+			For(&operatorv1alpha1.OperatorWatcher{}).
+			Watches(&source.Kind{Type: &u}, &handler.EnqueueRequestForObject{}).
+			Complete(r)
+	*/
+
+	// 不使用watch operator方式启用 status检查，改在mesh-installer 中直接创建出operatorstatus cr
+	return nil
 }
