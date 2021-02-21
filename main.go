@@ -20,6 +20,7 @@ import (
 	"flag"
 	ofv1 "github.com/operator-framework/api/pkg/operators/v1"
 	"os"
+	"time"
 
 	"k8s.io/apimachinery/pkg/runtime"
 	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
@@ -48,20 +49,26 @@ func init() {
 func main() {
 	var metricsAddr string
 	var enableLeaderElection bool
+	var interval int
+	var leaderElectionID string
 	flag.StringVar(&metricsAddr, "metrics-addr", ":8080", "The address the metric endpoint binds to.")
 	flag.BoolVar(&enableLeaderElection, "enable-leader-election", false,
 		"Enable leader election for controller manager. "+
 			"Enabling this will ensure there is only one active controller manager.")
+	flag.IntVar(&interval, "interval", 10, "Timer interval is used to synchronize business cluster resources")
+	flag.StringVar(&leaderElectionID, "leaderElectionID", "ti-election", "leaderElectionID")
+
 	flag.Parse()
 
 	ctrl.SetLogger(zap.New(zap.UseDevMode(true)))
-
+	d := time.Second * time.Duration(interval)
 	mgr, err := ctrl.NewManager(ctrl.GetConfigOrDie(), ctrl.Options{
 		Scheme:             scheme,
 		MetricsBindAddress: metricsAddr,
 		Port:               9443,
 		LeaderElection:     enableLeaderElection,
-		LeaderElectionID:   "af141b6b.alauda.io",
+		SyncPeriod:         &d,
+		LeaderElectionID:   leaderElectionID,
 	})
 	if err != nil {
 		setupLog.Error(err, "unable to start manager")
