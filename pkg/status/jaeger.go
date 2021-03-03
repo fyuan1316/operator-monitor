@@ -2,7 +2,6 @@ package status
 
 import (
 	operatorv1alpha1 "gitlab-ce.alauda.cn/micro-service/operator-monitor/api/v1alpha1"
-	"gitlab-ce.alauda.cn/micro-service/operator-monitor/pkg/operator"
 	"gitlab-ce.alauda.cn/micro-service/operator-monitor/pkg/util"
 )
 
@@ -21,7 +20,7 @@ func NewJaegerStatusGetter(g OperatorStatusGet) JaegerStatusGetter {
 func (g JaegerStatusGetter) Status() (operatorv1alpha1.OperatorStatusStatus, error) {
 	allComponentsQueryFn := ResourceQueryHelper.Queryers(g.OperatorStatus.Spec.InstalledNamespace)
 	// just use the name without namespace
-	name, _, _ := operator.ValidOperatorName(g.OperatorStatus.Spec.Operator.Name)
+	name, _, _ := ValidOperatorName(g.OperatorStatus.Spec.Operator.Name)
 	matches := map[string]string{
 		JaegerInstanceKey: g.OperatorStatus.Spec.CR.Name,
 		JaegerOperatorKey: name,

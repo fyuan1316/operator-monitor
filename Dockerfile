@@ -1,30 +1,20 @@
 # Build the manager binary
-FROM golang:1.13 as builder
+FROM harbor-b.alauda.cn/asm/builder:0.4-alpine3.12.1 AS builder
 
-WORKDIR /workspace
-# Copy the Go Modules manifests
-COPY go.mod go.mod
-COPY go.sum go.sum
-#ENV GOPROXY https://athens.alauda.cn
+COPY ./bin/ /opt/
 
-# cache deps before building and copying source so that we don't need to re-download as much
-# and so that source changes don't invalidate our downloaded layer
-RUN go mod download
+RUN ARCH="" && dpkgArch="$(arch)" \
+  && case "${dpkgArch}" in \
+  x86_64) ARCH='amd64' && upx /opt/${ARCH}/manager ;; \
+  aarch64) ARCH='arm64' && upx /opt/${ARCH}/manager  ;; \
+  *) echo "unsupported architecture"; exit 1 ;; \
+  esac \
+  && cp /opt/${ARCH}/manager /manager
 
-# Copy the go source
-COPY main.go main.go
-COPY api/ api/
-COPY controllers/ controllers/
-COPY pkg/ pkg/
 
-# Build
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 GO111MODULE=on go build -a -o manager main.go
-
-# Use distroless as minimal base image to package the manager binary
-# Refer to https://github.com/GoogleContainerTools/distroless for more details
-FROM alpine
+FROM harbor-b.alauda.cn/asm/runner:0.1-alpine3.12.1
+RUN apk --no-cache --update add ca-certificates
 WORKDIR /
-COPY --from=builder /workspace/manager .
-#USER nonroot:nonroot
+COPY --from=builder /manager /manager
 
 ENTRYPOINT ["/manager"]
