@@ -1,18 +1,18 @@
 package status
 
 import (
-	"context"
-	"fmt"
+	"reflect"
+	"testing"
+
 	"gitlab-ce.alauda.cn/micro-service/operator-monitor/api/v1alpha1"
 	operatorv1alpha1 "gitlab-ce.alauda.cn/micro-service/operator-monitor/api/v1alpha1"
 	"gitlab-ce.alauda.cn/micro-service/operator-monitor/pkg/mock"
 	appsv1 "k8s.io/api/apps/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/util/diff"
-	"reflect"
+
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/client/fake"
-	"testing"
 )
 
 var cb = fake.ClientBuilder{}
@@ -109,9 +109,6 @@ func TestStatusGetter_Status(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			dep := &appsv1.DeploymentList{}
-			k8sClient.List(context.TODO(), dep)
-			fmt.Println("")
 			got, err := tt.fields.OperatorStatusGet.Status()
 			if (err != nil) != tt.wantErr {
 				t.Errorf("Status() error = %v, wantErr %v", err, tt.wantErr)

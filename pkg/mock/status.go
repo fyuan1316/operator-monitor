@@ -176,6 +176,7 @@ func getDeployment(name, namespace string, labels map[string]string) *v1.Deploym
 }
 
 func GetObjects() []client.Object {
+
 	asm := NewAsmCase()
 	flagger := NewFlaggerCase()
 	jaeger := NewJaegerCase()

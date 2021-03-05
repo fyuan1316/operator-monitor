@@ -7,10 +7,8 @@ type Errors struct {
 }
 
 func (e *Errors) Append(err error) {
-	if err != nil {
-		if _, ok := err.(error); ok {
-			e.errs = append(e.errs, err)
-		}
+	if _, ok := err.(error); ok {
+		e.errs = append(e.errs, err)
 	}
 }
 func (e *Errors) Empty() bool {

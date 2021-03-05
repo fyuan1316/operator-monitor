@@ -24,10 +24,7 @@ var _ = Describe("Status Controller", func() {
 			key := client.ObjectKey{Name: "asm"}
 			Eventually(func() bool {
 				err := k8sClient.Get(context.Background(), key, &got)
-				if err != nil {
-					return false
-				}
-				return true
+				return err == nil
 			}, time.Second*45, 1).Should(BeTrue())
 			Expect(got.Name).Should(Equal(key.Name))
 		})
