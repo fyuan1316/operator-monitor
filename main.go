@@ -19,7 +19,9 @@ package main
 import (
 	"flag"
 	ofv1 "github.com/operator-framework/api/pkg/operators/v1"
+	"gitlab-ce.alauda.cn/micro-service/operator-monitor/pkg/util"
 	"os"
+	"time"
 
 	"k8s.io/apimachinery/pkg/runtime"
 	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
@@ -47,36 +49,29 @@ func init() {
 
 func main() {
 	var metricsAddr string
-	var enableLeaderElection bool
+	var interval int
 	flag.StringVar(&metricsAddr, "metrics-addr", ":8080", "The address the metric endpoint binds to.")
-	flag.BoolVar(&enableLeaderElection, "enable-leader-election", false,
-		"Enable leader election for controller manager. "+
-			"Enabling this will ensure there is only one active controller manager.")
+	flag.IntVar(&interval, "interval", 10, "Timer interval is used to synchronize business cluster resources")
 	flag.Parse()
 
-	ctrl.SetLogger(zap.New(zap.UseDevMode(true)))
+	leaderElectionNS, leaderElectionEnabled := util.GetLeaderElectionNamespace()
 
+	ctrl.SetLogger(zap.New(zap.UseDevMode(true)))
+	d := time.Second * time.Duration(interval)
 	mgr, err := ctrl.NewManager(ctrl.GetConfigOrDie(), ctrl.Options{
-		Scheme:             scheme,
-		MetricsBindAddress: metricsAddr,
-		Port:               9443,
-		LeaderElection:     enableLeaderElection,
-		LeaderElectionID:   "af141b6b.alauda.io",
+		Scheme:                  scheme,
+		MetricsBindAddress:      metricsAddr,
+		Port:                    9443,
+		LeaderElection:          leaderElectionEnabled,
+		LeaderElectionNamespace: leaderElectionNS,
+		SyncPeriod:              &d,
+		LeaderElectionID:        "asm-cr-status-lock",
 	})
 	if err != nil {
 		setupLog.Error(err, "unable to start manager")
 		os.Exit(1)
 	}
 
-	if err = (&controllers.OperatorWatcherReconciler{
-		Client:   mgr.GetClient(),
-		Log:      ctrl.Log.WithName("controllers").WithName("OperatorWatcher"),
-		Scheme:   mgr.GetScheme(),
-		Recorder: mgr.GetEventRecorderFor("OperatorWatcher"),
-	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "OperatorWatcher")
-		os.Exit(1)
-	}
 	if err = (&controllers.OperatorStatusReconciler{
 		Client:   mgr.GetClient(),
 		Log:      ctrl.Log.WithName("controllers").WithName("OperatorStatus"),

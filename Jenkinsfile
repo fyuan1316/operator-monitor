@@ -4,13 +4,14 @@ AlaudaPipeline {
     config = [
         agent: 'golang-1.13',
         folder: '.',
-//         chart: [
-//             [
-//                 project: "timatrix",
-//                 pipeline: "ti-installer-chart-update",
-//                 component: "timatrixController",
-//             ],
-//         ],
+        chart: [
+            [
+                 pipeline: "chart-global-asm",
+                 project: "asm",
+                 chart: "global-asm",
+                 component: "asm_cr_status",
+            ],
+        ],
         scm: [
             credentials: 'alaudabot-bitbucket'
         ],
@@ -22,13 +23,33 @@ AlaudaPipeline {
         ],
         sonar: [
             binding: "sonarqube",
-// 			enabled: false
         ],
     ]
     env = [
         GOPROXY: "https://athens.alauda.cn",
-//         CGO_ENABLED: "0",
-//         GOOS: "linux",
     ]
-    yaml = "alauda.yaml"
+    steps = [
+        [
+            name: "Unit test",
+            container: language,
+            groovy: [
+                """
+                try {
+                sh script: "make test", label: "unit tests..."
+                } finally {
+                archiveArtifacts 'test.json'
+                junit allowEmptyResults: true, testResults: 'pkg/**/*.xml'
+                }
+                """
+            ]
+        ],
+        [
+            name: "Build",
+            container: language,
+            commands: [
+                "make build",
+                "make armbuild",
+            ]
+        ]
+    ]
 }

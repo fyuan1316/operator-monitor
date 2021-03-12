@@ -33,3 +33,7 @@ func findNameInEnv(key string, fallback string) string {
 	}
 	return fallback
 }
+
+func GetLeaderElectionNamespace() (string, bool) {
+	return os.LookupEnv("LEADER_ELECTION_NAMESPACE")
+}
