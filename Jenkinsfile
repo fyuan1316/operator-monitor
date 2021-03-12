@@ -6,9 +6,9 @@ AlaudaPipeline {
         folder: '.',
         chart: [
             [
-                 pipeline: "chart-cluster-asm",
+                 pipeline: "chart-global-asm",
                  project: "asm",
-                 chart: "cluster-asm",
+                 chart: "global-asm",
                  component: "asm_cr_status",
             ],
         ],
