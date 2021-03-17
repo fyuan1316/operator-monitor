@@ -19,7 +19,7 @@ AlaudaPipeline {
             repository: "asm/operator-monitor",
             context: ".",
             dockerfile: "Dockerfile",
-            armBuild: false,
+            armBuild: true,
         ],
         sonar: [
             binding: "sonarqube",
